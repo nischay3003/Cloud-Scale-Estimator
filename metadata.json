@@ -1,0 +1,5 @@
+{
+  "name": "Cloud Smart Estimator & System Design Companion",
+  "description": "An intelligent tool that generates cloud infrastructure recommendations to help developers and architects design scalable, cost-efficient, and sustainable cloud architectures based on high-level project requirements.",
+  "requestFramePermissions": []
+}
