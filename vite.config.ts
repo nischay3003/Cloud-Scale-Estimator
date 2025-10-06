@@ -18,6 +18,11 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      preview: {
+        port: 4173, // optional
+        allowedHosts: ['cloud-scale-estimator.onrender.com'], // add your Render domain here
       }
+
     };
 });
