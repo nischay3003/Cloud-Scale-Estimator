@@ -125,7 +125,7 @@ async function fetchBackendPlan(data: QuestionnaireData): Promise<BackendRecomme
     sustainabilityPriority: data.sustainabilityPriority,
   };
 
-  const res = await fetch("http://localhost:5000/api/recommend", {
+  const res = await fetch("https://smart-scaling-backend.onrender.com/api/recommend", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
