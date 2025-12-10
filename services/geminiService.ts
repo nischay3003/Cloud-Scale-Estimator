@@ -267,6 +267,17 @@ IMPORTANT:
 //     throw new Error("Failed to get recommendations from the AI service.");
 //   }
 // }
+async function callWithRetry(payload, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await ai.models.generateContent(payload);
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise(res => setTimeout(res, 1000 * (i + 1))); // exponential backoff
+    }
+  }
+}
+
 export async function getCloudRecommendation(
   data: QuestionnaireData
 ): Promise<RecommendationResponse> {
@@ -278,14 +289,15 @@ export async function getCloudRecommendation(
     const prompt = buildPrompt(data, backendPlan);
 
     // 3) Call Gemini as before, but now it's guided by your backend
-    const response = await ai.models.generateContent({
+    const response = await callWithRetry({
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
         responseSchema: recommendationSchema,
-      },
+      }
     });
+
 
     const jsonText = response.text.trim();
     const result = JSON.parse(jsonText);
